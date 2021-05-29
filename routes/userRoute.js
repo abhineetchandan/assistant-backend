@@ -1,13 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const { signup, signin } = require('../functions/auth')
 
 const router = express.Router();
 
-router.post('/signup', (req, res) => {
-    res.send('received a request for signup');
+router.post('/signup', async (req, res) => {
+    await signup(req.body, res);
 });
 
-router.post('login', (req, res) => {
-    res.send('received a request for login');
+router.post('login', async (req, res) => {
+    await signin(req.body, res);
 });
 
 router.post('update', (req, res) => {
