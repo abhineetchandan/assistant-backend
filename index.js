@@ -4,13 +4,14 @@ const userRouter = require('./routes/userRoute')
 
 const app = express();
 
-app.use('/users', userRouter)
 app.use(express.json())
+app.use('/users', userRouter)
 
 mongoose.connect('mongodb://localhost/users', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useFindAndModify: true,
+    useCreateIndex: true,
 })
     .then(() => console.log('Connected to Mongoose Database...'))
     .catch(err => console.log('Error occured... ', err))

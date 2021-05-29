@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const { signup, signin } = require('../functions/auth')
 
 const router = express.Router();
@@ -8,7 +7,7 @@ router.post('/signup', async (req, res) => {
     await signup(req.body, res);
 });
 
-router.post('login', async (req, res) => {
+router.post('/login', async (req, res) => {
     await signin(req.body, res);
 });
 

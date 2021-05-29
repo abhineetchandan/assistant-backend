@@ -5,13 +5,12 @@ const bcrypt = require('bcrypt')
 
 async function signup(currentUser, res){
     try{
-        const error = validateSignup(currentUser);
+        const { error } = validateSignup(currentUser);
         if (error) return res.status(400).send(error.details[0].message);
-    
         let user = await User.findOne({email: currentUser.email});    
         if (user) return res.status(400).send('User already registered');
         
-        user = new User(_.pick(user, ['name', 'email', 'password', 'isPro']))
+        user = new User(_.pick(currentUser, ['name', 'email', 'password', 'isPro']))
         const genSalt = await bcrypt.genSalt(10)
         user.password = await bcrypt.hash(currentUser.password, genSalt);
         
@@ -25,7 +24,7 @@ async function signup(currentUser, res){
 
 async function signin(currentUser, res) {
     try{
-        const error = validateSignup(currentUser);
+        const { error } = validateSignin(currentUser);
         if (error) return res.status(400).send(error.details[0].message);
     
         let user = await User.findOne({email: currentUser.email});    
@@ -37,7 +36,7 @@ async function signin(currentUser, res) {
         res.send(_.pick(user, ['_id', 'name', 'email', 'isPro']))
     }
     catch(err){
-        res.send('Something is wrong. Please try again later.')
+       res.send('Something is wrong. Please try again later.')
     }
 }
 
