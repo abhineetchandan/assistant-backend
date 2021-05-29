@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const userRouter = require('./routes/userRoute') 
+const config = require('config')
 
 const app = express();
+
+if (!config.get('jwtPrivateKey')){
+    console.error('FATAL ERROR: Jwt Private Key not defined.');
+    process.exit(1);
+}
 
 app.use(express.json())
 app.use('/users', userRouter)
