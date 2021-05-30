@@ -5,7 +5,8 @@ function validateSignup(user) {
         name: Joi.string().min(3).max(40).required(),
         email: Joi.string().min(5).max(600).required().email(),
         password: Joi.string().min(5).max(255).required(),
-        isPro: Joi.bool()
+        isPro: Joi.bool(),
+        picture: Joi.string(),
     })
 
     return schema.validate(user)

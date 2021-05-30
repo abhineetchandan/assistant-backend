@@ -4,6 +4,7 @@ const _ = require('lodash')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const fs = require('fs')
 
 async function signup(currentUser, res){
     //try{
@@ -15,6 +16,9 @@ async function signup(currentUser, res){
         user = new User(_.pick(currentUser, ['name', 'email', 'password', 'isPro']))
         const genSalt = await bcrypt.genSalt(10)
         user.password = await bcrypt.hash(currentUser.password, genSalt);
+        fs.readFile('./image.jpg', (err, data)=> {
+            user.picture = data
+        })
         
         await user.save()
         const token = jwt.sign(_.pick(user, ['name', 'email', 'isPro']) , config.get('jwtPrivateKey'))
